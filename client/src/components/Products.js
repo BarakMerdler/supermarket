@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Products.css";
 import axios from "axios";
-import Creatable from "react-select/creatable";
 import Product from "./Product";
 
 class Products extends Component {
@@ -18,8 +17,7 @@ class Products extends Component {
         }
       ],
       route: "some route",
-      value: "some value",
-      hasError: false
+      value: "some value"
     };
   }
 

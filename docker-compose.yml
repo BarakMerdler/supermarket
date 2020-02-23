@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  server:
+    build: ./server
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
+    volumes:
+      - ./server:/srv/app/server
+    command: npm run dev
+
+  client:
+    build: ./client
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/srv/app/client/src
+      - ./client/public:/srv/app/client/public
+    links:
+      - server
+    command: npm run start
