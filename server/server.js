@@ -154,7 +154,6 @@ app.post("/admin/update", (req, res) => {
         res.nModified,
         "- Number of documents modified"
       );
-      res.sendStatus(200);
     }
   );
   res.sendStatus(200);
@@ -181,6 +180,17 @@ app.get("/products", (req, res) => {
       res.send(product);
     })
     .catch(e => console.log(e));
+});
+
+app.get("/products/:id", function(req, res) {
+  production.findById(req.params.id, (err, product) => {
+    if (err) {
+      console.log(err);
+      res.send(500);
+    } else {
+      res.send(product);
+    }
+  });
 });
 
 //!--- GET all companys API ---!

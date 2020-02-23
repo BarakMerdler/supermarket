@@ -16,7 +16,7 @@ class Update extends Component {
   render() {
     return (
       <div>
-        <Products route="update" />
+        <Products route="delete" />
       </div>
     );
   }

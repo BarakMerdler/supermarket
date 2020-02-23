@@ -3,6 +3,7 @@ import "./Products.css";
 import axios from "axios";
 import Creatable from "react-select/creatable";
 import Product from "./Product";
+
 class Products extends Component {
   constructor() {
     super();
@@ -16,13 +17,13 @@ class Products extends Component {
           tags: "demprtment"
         }
       ],
-      route: "some route"
+      route: "some route",
+      value: "some value",
+      hasError: false
     };
   }
 
   handleInputChange(event) {}
-
-  handleSubmit(event) {}
 
   componentDidMount() {
     async function getData(url) {
@@ -33,16 +34,33 @@ class Products extends Component {
         console.error(error);
       }
     }
+    function setValue(route) {
+      let value = "";
+      if (route === "update") {
+        value = "עדכן מוצר";
+      } else if (route === "customers") {
+        value = "הוסף לסל";
+      } else {
+        value = "מחק מוצר";
+      }
+      return value;
+    }
     getData("http://localhost:5000/products")
       .then(res => {
-        console.log(res);
         return res;
       })
       .then(data => {
-        this.setState({ data: data, route: this.props.route });
+        const route = this.props.route;
+        const value = setValue(route);
+        this.setState({ data: data, route: route, value: value });
       })
-      .then(() => console.log(this.state))
       .catch(err => console.log(err));
+  }
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    console.log(error, info);
   }
 
   render() {
@@ -53,12 +71,13 @@ class Products extends Component {
             <Product
               className="product"
               key={i}
-              _id={this.state.data[i]._id}
+              _id={product._id}
               name={this.state.data[i].name}
               company={this.state.data[i].company}
               price={this.state.data[i].price}
               tag={this.state.data[i].tags}
               route={this.state.route}
+              value={this.state.value}
             />
           );
         })}
